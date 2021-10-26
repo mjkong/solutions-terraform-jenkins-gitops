@@ -210,7 +210,7 @@ master:
                                     memory: false
                                     mountPath: "/tmp"
                               podRetention: "never"
-                              activeDeadlineSeconds: "300"
+                              activeDeadlineSeconds: "30000"
                               slaveConnectTimeout: "1000"
         credentials: |
             credentials:
