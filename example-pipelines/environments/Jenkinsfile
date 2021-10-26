@@ -18,7 +18,17 @@ pipeline {
   agent {
       label "terraform-exec"
   }
+  environment {
+      SVC_ACCOUNT_KEY = credentials('terraform-auth')
+    }
   stages {
+    stage('Checkout') {
+       steps {
+          checkout scm
+          sh 'mkdir -p creds'
+          sh 'echo $SVC_ACCOUNT_KEY | base64 -d > ./creds/serviceaccount.json'
+       }
+    }
     // [START tf-init, tf-validate]
     stage('TF init & validate') {
       when { anyOf {branch "prod";branch "dev";changeRequest() } }
