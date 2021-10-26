@@ -34,10 +34,6 @@ pipeline {
       when { anyOf {branch "prod";branch "dev";changeRequest() } }
       steps {
         container('terraform') {
-//           withCredentials([file(credentialsId: 'terraform-auth', variable: 'GC_KEY')]) {
-//               sh("gcloud auth activate-service-account --key-file=${GC_KEY}")
-// //               sh("gcloud container clusters get-credentials prod --zone us-east1-b --project stable-splicer-326102")
-//           }
           sh '''
           if [[ $CHANGE_TARGET ]]; then
             TARGET_ENV=$CHANGE_TARGET
@@ -74,10 +70,6 @@ pipeline {
       when { anyOf {branch "prod";branch "dev";changeRequest() } }
       steps {
         container('terraform') {
-//           withCredentials([file(credentialsId: 'terraform-auth', variable: 'GC_KEY')]) {
-//                         sh("gcloud auth activate-service-account --key-file=${GC_KEY}")
-//           //               sh("gcloud container clusters get-credentials prod --zone us-east1-b --project stable-splicer-326102")
-//                     }
           sh '''
           if [[ $CHANGE_TARGET ]]; then
             TARGET_ENV=$CHANGE_TARGET
@@ -112,10 +104,6 @@ pipeline {
       when { anyOf {branch "prod";branch "dev" } }
       steps {
         container('terraform') {
-//           withCredentials([file(credentialsId: 'terraform-auth', variable: 'GC_KEY')]) {
-//                         sh("gcloud auth activate-service-account --key-file=${GC_KEY}")
-//           //               sh("gcloud container clusters get-credentials prod --zone us-east1-b --project stable-splicer-326102")
-//                     }
           sh '''
           TARGET_ENV=$BRANCH_NAME
 
