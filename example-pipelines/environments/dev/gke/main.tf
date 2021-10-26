@@ -42,7 +42,7 @@
 module "gke" {
   source                   = "terraform-google-modules/kubernetes-engine/google//modules/beta-public-cluster/"
   version                  = "~> 17.0"
-  project_id               = module.enables-google-apis.project_id
+  project_id               = var.project_id
   name                     = var.cluster_name
   regional                 = false
   region                   = "us-east1"
@@ -55,7 +55,7 @@ module "gke" {
   monitoring_service       = "monitoring.googleapis.com/kubernetes"
   remove_default_node_pool = true
   service_account          = "create"
-  identity_namespace       = "${module.enables-google-apis.project_id}.svc.id.goog"
+  identity_namespace       = "${var.project_id}.svc.id.goog"
   node_metadata            = "GKE_METADATA_SERVER"
   node_pools = [
     {
@@ -81,7 +81,7 @@ module "gke" {
  *****************************************/
 # allow GKE to pull images from GCR
 resource "google_project_iam_member" "gke" {
-  project = module.enables-google-apis.project_id
+  project = var.project_id
   role    = "roles/storage.objectViewer"
 
   member = "serviceAccount:${module.gke.service_account}"
@@ -93,7 +93,7 @@ resource "google_project_iam_member" "gke" {
 module "workload_identity" {
   source              = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
   version             = "~> 7.0"
-  project_id          = module.enables-google-apis.project_id
+  project_id          = var.project_id
   name                = "${module.gke.name}-wi"
   namespace           = "default"
   use_existing_k8s_sa = false
@@ -101,7 +101,7 @@ module "workload_identity" {
 
 # enable GSA to add and delete pods for jenkins builders
 resource "google_project_iam_member" "cluster-dev" {
-  project = module.enables-google-apis.project_id
+  project = var.project_id
   role    = "roles/container.developer"
   member  = module.workload_identity.gcp_service_account_fqn
 }
