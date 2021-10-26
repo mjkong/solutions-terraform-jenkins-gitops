@@ -18,5 +18,6 @@ terraform {
   backend "gcs" {
     bucket = "example-nonprod-devops-remote-state-bucket"
     prefix = "example/gke/dev/gke"
+#    credentials = "./creds/serviceaccount.json"
   }
 }

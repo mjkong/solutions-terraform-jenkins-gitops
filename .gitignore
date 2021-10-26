@@ -5,6 +5,7 @@ credentials.json
 .idea
 .vscode
 **/*.out
+**/creds/
 
 # Local .terraform directories
 **/.terraform/*

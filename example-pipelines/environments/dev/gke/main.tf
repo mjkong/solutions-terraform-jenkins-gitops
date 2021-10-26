@@ -49,7 +49,7 @@ module "gke" {
       image_type                = "COS"
       auto_repair               = true
       auto_upgrade              = true
-#      service_account           = "${var.cluster_name}@${var.project_id}.iam.gserviceaccount.com"
+      service_account           = "nonprodmachineuser@stable-splicer-326102.iam.gserviceaccount.com"
     }
   ]
 }
